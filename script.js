@@ -13,6 +13,22 @@ function selectGender(gender) {
   }
 }
 
+function calculateMaleBodyFat(height, neck, waist) {
+  if (waist <= neck) {
+    alert('Waist must be greater than neck for males.');
+    return null;
+  }
+  return 495 / (1.0324 - 0.19077 * Math.log10(waist - neck) + 0.15456 * Math.log10(height)) - 450;
+}
+
+function calculateFemaleBodyFat(height, neck, waist, hip) {
+  if ((waist + hip) <= neck) {
+    alert('Sum of waist and hip must be greater than neck for females.');
+    return null;
+  }
+  return 495 / (1.29579 - 0.35004 * Math.log10(waist + hip - neck) + 0.22100 * Math.log10(height)) - 450;
+}
+
 function calculateFat() {
   const height = parseFloat(document.getElementById('height').value);
   const neck = parseFloat(document.getElementById('neck').value);
@@ -24,15 +40,15 @@ function calculateFat() {
     return;
   }
 
-  let bodyFat = 0;
+  let bodyFat = null;
 
   if (selectedGender === 'male') {
-    // U.S. Navy formula for men (in inches)
-    bodyFat = 495 / (1.0324 - 0.19077 * Math.log10(waist - neck) + 0.15456 * Math.log10(height)) - 450;
+    bodyFat = calculateMaleBodyFat(height, neck, waist);
   } else {
-    // U.S. Navy formula for women (in inches)
-    bodyFat = 495 / (1.29579 - 0.35004 * Math.log10(waist + hip - neck) + 0.22100 * Math.log10(height)) - 450;
+    bodyFat = calculateFemaleBodyFat(height, neck, waist, hip);
   }
+
+  if (bodyFat === null) return; // Validation failed, stop
 
   const fatPercent = bodyFat.toFixed(2);
   const category = getFatCategory(fatPercent, selectedGender);
@@ -106,7 +122,7 @@ function resetForm() {
   document.getElementById('input-section').style.display = 'none';
   document.getElementById('gender-section').style.display = 'block';
 
-  // Clear inputs
+  // Clear form inputs
   document.getElementById('fatForm').reset();
-  document.getElementById('result').innerText = '';
+  document.getElementById('result').innerHTML = '';
 }
