@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fat Calculation</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Fat Calculation</h1>
+
+    <!-- Step 1: Gender Selection -->
+    <div id="gender-section">
+      <p>Select your gender to continue:</p>
+      <div class="gender-buttons">
+        <button onclick="selectGender('male')">Male</button>
+        <button onclick="selectGender('female')">Female</button>
+      </div>
+    </div>
+
+    <!-- Step 2: Input Section -->
+    <div id="input-section" style="display: none;">
+      <form id="fatForm">
+        <div id="common-inputs">
+          <input type="number" id="height" placeholder="Height (in inches)" required>
+          <input type="number" id="neck" placeholder="Neck (in inches)" required>
+          <input type="number" id="waist" placeholder="Waist (in inches)" required>
+        </div>
+        <div id="female-only" style="display: none;">
+          <input type="number" id="hip" placeholder="Hip (in inches)">
+        </div>
+        <div class="buttons">
+          <button type="button" onclick="calculateFat()">Calculate Fat</button>
+          <button type="button" onclick="resetForm()">Reset</button>
+        </div>
+      </form>
+      <div id="result"></div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
